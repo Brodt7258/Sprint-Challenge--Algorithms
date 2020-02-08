@@ -97,7 +97,37 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+
+        self.set_light_on()
+
+        # light indicates that some change was made on the last pass, and it needs to be checked again for further changes
+        # if no changes were made, then every entry is less than the neighbor to its immediate right. By definition, this means it is sorted.
+        while self.light_is_on():
+
+            self.set_light_off()
+
+            # keep testing while moving right, until reaching the end of the array
+            while self.can_move_right():
+
+                # grab an item and move to its rightward neighbot to test them
+                self.swap_item()
+                self.move_right()
+
+                # if held is bigger, swap them
+                if self.compare_item() == 1:
+                    self.swap_item()
+
+                    # note that a change has been made
+                    self.set_light_on()
+
+                # put whatever is now held back in the starting position, and then move right to repeat on the next set of neighbors
+                self.move_left()
+                self.swap_item()
+                self.move_right()
+
+            # reset to the leftmost position to start again
+            while self.can_move_left():
+                self.move_left()
 
 
 if __name__ == "__main__":
